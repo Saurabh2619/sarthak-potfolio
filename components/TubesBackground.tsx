@@ -1,10 +1,14 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
-// Helper for random colors
+declare global {
+  interface Window {
+    TubesCursor: any;
+  }
+}
+
 const randomColors = (count: number) => {
   return new Array(count)
     .fill(0)
@@ -28,21 +32,24 @@ export function TubesBackground({
 
   useEffect(() => {
     let mounted = true;
-    let cleanup: (() => void) | undefined;
 
     const initTubes = async () => {
-      if (!canvasRef.current) return;
+      if (!canvasRef.current || typeof window === 'undefined') return;
 
       try {
-        // We use the specific build from the CDN as it contains the exact effect requested
-        // Using native dynamic import which works in modern browsers
-        // @ts-ignore
-        const module = await import(/* webpackIgnore: true */ 'https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js');
-        const TubesCursor = module.default;
+        // Use dynamic import for ES modules - this works in browser
+        const scriptUrl = 'https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js';
+        
+        // Check if already imported
+        if (!window.TubesCursor) {
+          // Dynamic import for ES modules
+          const module = await eval(`import('${scriptUrl}')`);
+          window.TubesCursor = module.default || module;
+        }
 
-        if (!mounted) return;
+        if (!mounted || !canvasRef.current) return;
 
-        const app = TubesCursor(canvasRef.current, {
+        const app = window.TubesCursor(canvasRef.current, {
           tubes: {
             colors: ["#f967fb", "#53bc28", "#6958d5"],
             lights: {
@@ -55,21 +62,9 @@ export function TubesBackground({
         tubesRef.current = app;
         setIsLoaded(true);
 
-        // Handle resize if the library doesn't automatically
-        const handleResize = () => {
-          // The library might handle it, but typically we ensure canvas matches container
-          // For this specific lib, it likely attaches to window resize or we might need to manually resize
-        };
-
-        window.addEventListener('resize', handleResize);
-        
-        cleanup = () => {
-          window.removeEventListener('resize', handleResize);
-          // app.destroy?.();
-        };
-
       } catch (error) {
         console.error("Failed to load TubesCursor:", error);
+        setIsLoaded(true);
       }
     };
 
@@ -77,23 +72,29 @@ export function TubesBackground({
 
     return () => {
       mounted = false;
-      if (cleanup) cleanup();
     };
   }, []);
 
   const handleClick = () => {
     if (!enableClickInteraction || !tubesRef.current) return;
     
-    const colors = randomColors(3);
-    const lightsColors = randomColors(4);
-    
-    tubesRef.current.tubes.setColors(colors);
-    tubesRef.current.tubes.setLightsColors(lightsColors);
+    try {
+      const colors = randomColors(3);
+      const lightsColors = randomColors(4);
+      
+      if (tubesRef.current.tubes) {
+        tubesRef.current.tubes.setColors?.(colors);
+        tubesRef.current.tubes.setLightsColors?.(lightsColors);
+      }
+    } catch (error) {
+      console.error("Color change failed:", error);
+    }
   };
 
   return (
     <div 
-      className={cn("relative w-full h-full min-h-[400px] overflow-hidden bg-black", className)}
+      className={cn("relative w-full h-full min-h-[400px] overflow-hidden", className)}
+      style={{ backgroundColor: '#000' }}
       onClick={handleClick}
     >
       <canvas 
@@ -102,10 +103,32 @@ export function TubesBackground({
         style={{ touchAction: 'none' }}
       />
       
-      {/* Content Overlay */}
       <div className="relative z-10 w-full h-full pointer-events-none">
         {children}
       </div>
+
+      {!isLoaded && (
+        <div 
+          className="absolute inset-0 flex items-center justify-center"
+          style={{ backgroundColor: '#000' }}
+        >
+          <div className="flex flex-col items-center gap-3">
+            <div 
+              className="w-8 h-8 rounded-full animate-spin"
+              style={{
+                border: '4px solid rgba(255, 255, 255, 0.2)',
+                borderTopColor: '#fff'
+              }}
+            />
+            <div 
+              className="text-sm animate-pulse"
+              style={{ color: 'rgba(255, 255, 255, 0.5)' }}
+            >
+              Loading 3D Experience...
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
