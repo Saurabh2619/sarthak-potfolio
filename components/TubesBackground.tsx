@@ -37,10 +37,9 @@ export function TubesBackground({
       if (!canvasRef.current || typeof window === 'undefined') return;
 
       try {
-        // Use dynamic import for ES modules - this works in browser
-        const scriptUrl = 'https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js';
+        // Load the locally patched version of the script that draws a 'V' shape instead of infinity
+        const scriptUrl = '/tubes-v.js';
         
-        // Check if already imported
         if (!window.TubesCursor) {
           // Dynamic import for ES modules
           const module = await eval(`import('${scriptUrl}')`);
@@ -72,6 +71,11 @@ export function TubesBackground({
 
     return () => {
       mounted = false;
+      if (tubesRef.current && tubesRef.current.dispose) {
+          try {
+              tubesRef.current.dispose();
+          } catch(e) {}
+      }
     };
   }, []);
 
@@ -109,7 +113,7 @@ export function TubesBackground({
 
       {!isLoaded && (
         <div 
-          className="absolute inset-0 flex items-center justify-center"
+          className="absolute inset-0 flex items-center justify-center pointer-events-none"
           style={{ backgroundColor: '#000' }}
         >
           <div className="flex flex-col items-center gap-3">
