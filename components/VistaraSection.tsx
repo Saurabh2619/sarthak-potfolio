@@ -5,12 +5,12 @@ import { Video, Scissors, Palette, Wand2, Sparkles, TrendingUp } from 'lucide-re
 
 export default function VistaraSection() {
   const tools = [
-    { name: 'Adobe Premiere Pro', icon: '🎬', color: 'from-purple-500 to-pink-500' },
-    { name: 'After Effects', icon: '✨', color: 'from-blue-500 to-cyan-500' },
-    { name: 'DaVinci Resolve', icon: '🎨', color: 'from-red-500 to-orange-500' },
-    { name: 'Final Cut Pro', icon: '🎞️', color: 'from-green-500 to-teal-500' },
-    { name: 'Photoshop', icon: '🖼️', color: 'from-indigo-500 to-purple-500' },
-    { name: 'CapCut', icon: '📱', color: 'from-pink-500 to-rose-500' },
+    { name: 'Adobe Premiere Pro', icon: '🎬', color: 'from-primary to-secondary' },
+    { name: 'After Effects', icon: '✨', color: 'from-secondary to-primary' },
+    { name: 'DaVinci Resolve', icon: '🎨', color: 'from-primary to-secondary' },
+    { name: 'Final Cut Pro', icon: '🎞️', color: 'from-secondary to-primary' },
+    { name: 'Photoshop', icon: '🖼️', color: 'from-primary to-secondary' },
+    { name: 'CapCut', icon: '📱', color: 'from-secondary to-primary' },
   ];
 
   const services = [
@@ -18,57 +18,57 @@ export default function VistaraSection() {
       icon: Video,
       title: 'Video Editing',
       description: 'Professional editing for YouTube, social media, and corporate videos',
-      gradient: 'from-purple-500 to-pink-500'
+      gradient: 'from-primary to-secondary'
     },
     {
       icon: Scissors,
       title: 'Content Creation',
       description: 'Short-form content for Instagram Reels, TikTok, and YouTube Shorts',
-      gradient: 'from-blue-500 to-cyan-500'
+      gradient: 'from-secondary to-primary'
     },
     {
       icon: Palette,
       title: 'Color Grading',
       description: 'Cinematic color grading to enhance visual storytelling',
-      gradient: 'from-orange-500 to-red-500'
+      gradient: 'from-primary to-secondary'
     },
     {
       icon: Wand2,
       title: 'Motion Graphics',
       description: 'Eye-catching animations and text effects for dynamic content',
-      gradient: 'from-green-500 to-teal-500'
+      gradient: 'from-secondary to-primary'
     },
     {
       icon: Sparkles,
       title: 'VFX & Effects',
       description: 'Special effects and visual enhancements for impactful videos',
-      gradient: 'from-indigo-500 to-purple-500'
+      gradient: 'from-primary to-secondary'
     },
     {
       icon: TrendingUp,
       title: 'Brand Videos',
       description: 'Promotional content that drives engagement and conversions',
-      gradient: 'from-pink-500 to-rose-500'
+      gradient: 'from-secondary to-primary'
     },
   ];
 
   return (
-    <section id="vistara" className="relative w-full min-h-screen bg-black py-20 px-4">
+    <section id="vistara" className="relative w-full bg-black py-16 md:py-24 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
           <div className="inline-block mb-4">
-            <span className="text-sm uppercase tracking-widest text-purple-400 font-bold">Freelance Services</span>
+            <span className="text-sm uppercase tracking-widest text-primary font-bold">Freelance Services</span>
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-white mb-6">
-            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Vistara
             </span>
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
             Your vision, expertly crafted. From concept to final cut, I deliver videos that tell your story and captivate your audience.
           </p>
-          <div className="w-32 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 mx-auto mt-6"></div>
+          <div className="w-32 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mt-6"></div>
         </div>
 
         {/* Services Grid */}
@@ -87,7 +87,7 @@ export default function VistaraSection() {
               </div>
 
               {/* Content */}
-              <h3 className="relative text-2xl font-bold text-white mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-purple-400 group-hover:to-pink-400 transition-all duration-300">
+              <h3 className="relative text-2xl font-bold text-white mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-primary group-hover:to-secondary transition-all duration-300">
                 {service.title}
               </h3>
               <p className="relative text-gray-400 leading-relaxed">
@@ -127,7 +127,7 @@ export default function VistaraSection() {
             { number: '24/7', label: 'Support Available' },
           ].map((stat, index) => (
             <div key={index} className="text-center">
-              <div className="text-4xl md:text-5xl font-black bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
+              <div className="text-4xl md:text-5xl font-black bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
                 {stat.number}
               </div>
               <div className="text-sm text-gray-400 uppercase tracking-wider">

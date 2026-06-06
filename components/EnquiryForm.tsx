@@ -69,12 +69,12 @@ export default function EnquiryForm() {
   };
 
   return (
-    <section id="contact" className="relative w-full min-h-screen bg-black py-20 px-4">
+    <section id="contact" className="relative w-full bg-black py-16 md:py-24 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
           <div className="inline-block mb-4">
-            <span className="text-sm uppercase tracking-widest text-blue-400 font-bold">Get In Touch</span>
+            <span className="text-sm uppercase tracking-widest text-primary font-bold">Get In Touch</span>
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-white mb-6">
             Let's Create Together
@@ -82,7 +82,7 @@ export default function EnquiryForm() {
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
             Have a project in mind? Fill out the form below and I'll get back to you within 24 hours.
           </p>
-          <div className="w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-6"></div>
+          <div className="w-32 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mt-6"></div>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
@@ -97,31 +97,31 @@ export default function EnquiryForm() {
 
             <div className="space-y-6">
               <div className="flex items-start gap-4 group">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                   <Mail className="w-6 h-6 text-white" />
                 </div>
                 <div>
                   <h4 className="text-white font-semibold mb-1">Email</h4>
-                  <a href="mailto:contact@vistara.com" className="text-gray-400 hover:text-purple-400 transition-colors">
+                  <a href="mailto:contact@vistara.com" className="text-gray-400 hover:text-primary transition-colors">
                     contact@vistara.com
                   </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-4 group">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                   <Phone className="w-6 h-6 text-white" />
                 </div>
                 <div>
                   <h4 className="text-white font-semibold mb-1">Phone</h4>
-                  <a href="tel:+911234567890" className="text-gray-400 hover:text-pink-400 transition-colors">
+                  <a href="tel:+911234567890" className="text-gray-400 hover:text-secondary transition-colors">
                     +91 123 456 7890
                   </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-4 group">
-                <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-orange-500 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                   <MapPin className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -141,7 +141,7 @@ export default function EnquiryForm() {
                   <a
                     key={platform}
                     href="#"
-                    className="w-12 h-12 bg-white/5 hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 border border-white/10 rounded-lg flex items-center justify-center text-gray-400 hover:text-white transition-all duration-300 hover:scale-110"
+                    className="w-12 h-12 bg-white/5 hover:bg-gradient-to-br hover:from-primary hover:to-secondary border border-white/10 rounded-lg flex items-center justify-center text-gray-400 hover:text-white transition-all duration-300 hover:scale-110"
                   >
                     {platform[0]}
                   </a>
@@ -177,7 +177,7 @@ export default function EnquiryForm() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
                     placeholder="John Doe"
                   />
                 </div>
@@ -192,7 +192,7 @@ export default function EnquiryForm() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
                     placeholder="john@example.com"
                   />
                 </div>
@@ -208,7 +208,7 @@ export default function EnquiryForm() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
                     placeholder="+91 98765 43210"
                   />
                 </div>
@@ -222,7 +222,7 @@ export default function EnquiryForm() {
                     value={formData.service}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500 transition-colors"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-primary transition-colors"
                   >
                     <option value="" disabled>Select a service</option>
                     <option value="video-editing">Video Editing</option>
@@ -244,7 +244,7 @@ export default function EnquiryForm() {
                   name="budget"
                   value={formData.budget}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500 transition-colors"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-primary transition-colors"
                 >
                   <option value="">Select your budget</option>
                   <option value="under-5k">Under ₹5,000</option>
@@ -265,7 +265,7 @@ export default function EnquiryForm() {
                   onChange={handleChange}
                   required
                   rows={5}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors resize-none"
                   placeholder="Tell me about your project, timeline, and any specific requirements..."
                 ></textarea>
               </div>
@@ -273,7 +273,7 @@ export default function EnquiryForm() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(168,85,247,0.5)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                className="w-full px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white font-bold rounded-lg hover:from-primary hover:to-secondary transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_var(--theme-primary)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
               >
                 {isSubmitting ? (
                   <>

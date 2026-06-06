@@ -90,6 +90,10 @@ export function TubesBackground({
         tubesRef.current.tubes.setColors?.(colors);
         tubesRef.current.tubes.setLightsColors?.(lightsColors);
       }
+
+      // Update global theme variables to match the new hero colors
+      document.documentElement.style.setProperty('--theme-primary', colors[0]);
+      document.documentElement.style.setProperty('--theme-secondary', colors[1]);
     } catch (error) {
       console.error("Color change failed:", error);
     }

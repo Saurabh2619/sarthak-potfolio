@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: var(--theme-primary);
+  --color-secondary: var(--theme-secondary);
+}
+
+:root {
+  --theme-primary: #a855f7; /* Default purple-500 */
+  --theme-secondary: #ec4899; /* Default pink-500 */
+}
+
 /* Custom Animations */
 @keyframes fadeIn {
   from {
@@ -80,12 +90,13 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #a855f7, #ec4899);
+  background: linear-gradient(to bottom, var(--theme-primary), var(--theme-secondary));
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #9333ea, #db2777);
+  background: linear-gradient(to bottom, var(--theme-primary), var(--theme-secondary));
+  opacity: 0.8;
 }
 
 /* Base styles */
@@ -98,11 +109,11 @@ body {
 
 /* Selection color */
 ::selection {
-  background-color: rgba(168, 85, 247, 0.3);
+  background-color: color-mix(in srgb, var(--theme-primary) 30%, transparent);
   color: white;
 }
 
 ::-moz-selection {
-  background-color: rgba(168, 85, 247, 0.3);
+  background-color: color-mix(in srgb, var(--theme-primary) 30%, transparent);
   color: white;
 }

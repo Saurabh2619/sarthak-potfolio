@@ -31,7 +31,7 @@ export default function SmoothScroll() {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white shadow-lg hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all duration-300 hover:scale-110"
+          className="fixed bottom-8 right-8 z-50 w-14 h-14 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center text-white shadow-lg hover:shadow-[0_0_30px_var(--theme-primary)] transition-all duration-300 hover:scale-110"
           aria-label="Scroll to top"
         >
           <svg

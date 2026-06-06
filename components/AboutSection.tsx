@@ -67,7 +67,7 @@ export default function AboutSection() {
       id="about" 
       ref={sectionRef}
       onMouseMove={handleMouseMove}
-      className="relative w-full min-h-screen bg-black py-32 px-4 overflow-hidden"
+      className="relative w-full bg-black py-16 md:py-24 px-4 overflow-hidden"
     >
       {/* Dynamic Interactive Spotlight Background */}
       <div 
@@ -89,7 +89,7 @@ export default function AboutSection() {
       >
         {/* Section Header */}
         <motion.div className="text-center mb-24" variants={itemVariants}>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 text-sm font-medium tracking-wide uppercase mb-6 backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-medium tracking-wide uppercase mb-6 backdrop-blur-md">
             <Sparkles className="w-4 h-4" />
             <span>Discover My World</span>
           </div>
@@ -117,7 +117,7 @@ export default function AboutSection() {
               className="relative w-full aspect-square cursor-default"
             >
               {/* Glowing backdrops */}
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600 to-pink-600 rounded-[2.5rem] blur-3xl opacity-30 animate-pulse"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary rounded-[2.5rem] blur-3xl opacity-30 animate-pulse"></div>
               
               {/* Glassmorphism main card */}
               <div className="absolute inset-0 rounded-[2.5rem] bg-gray-900/60 backdrop-blur-xl border border-white/20 shadow-[0_0_40px_rgba(0,0,0,0.5)] overflow-hidden flex items-center justify-center">
@@ -132,8 +132,8 @@ export default function AboutSection() {
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               >
-                <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
-                  <Play className="w-5 h-5 text-purple-400 ml-1" />
+                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                  <Play className="w-5 h-5 text-primary ml-1" />
                 </div>
                 <div>
                   <p className="text-xs text-gray-400 font-medium">Experience</p>
@@ -160,7 +160,7 @@ export default function AboutSection() {
               <h3 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
                 Dual Identity,
               </h3>
-              <h3 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tracking-tight">
+              <h3 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary tracking-tight">
                 One Singular Vision.
               </h3>
             </div>
@@ -168,7 +168,7 @@ export default function AboutSection() {
             <div className="space-y-6 text-xl text-gray-300/80 leading-relaxed font-light">
               <p>
                 I am a second-year BBA student by day and a highly passionate video editor by night. 
-                Through <span className="text-white font-medium border-b border-purple-500">Vistara</span>, I merge 
+                Through <span className="text-white font-medium border-b border-primary">Vistara</span>, I merge 
                 sharp business acumen with immersive creative storytelling to construct visual content 
                 that truly resonates with modern audiences.
               </p>
@@ -182,7 +182,7 @@ export default function AboutSection() {
             {/* Minimalist Stats/Tags */}
             <div className="flex flex-wrap gap-4 pt-4">
               {['Premiere Pro', 'After Effects', 'Marketing Strategy', 'Content Creation'].map((tag, i) => (
-                <span key={i} className="px-4 py-2 rounded-full border border-gray-700 bg-gray-800/50 text-gray-300 text-sm font-medium hover:border-purple-500 hover:text-white transition-colors cursor-default">
+                <span key={i} className="px-4 py-2 rounded-full border border-gray-700 bg-gray-800/50 text-gray-300 text-sm font-medium hover:border-primary hover:text-white transition-colors cursor-default">
                   {tag}
                 </span>
               ))}
@@ -193,24 +193,24 @@ export default function AboutSection() {
         {/* Advanced Spotlight Grid */}
         <div className="grid md:grid-cols-3 gap-6">
           <SpotlightCard 
-            icon={<GraduationCap className="w-8 h-8 text-purple-400" />}
+            icon={<GraduationCap className="w-8 h-8 text-primary" />}
             title="Academic Excellence"
             description="Pursuing BBA with an intensive focus on modern marketing, management, and digital entrepreneurship."
-            color="from-purple-500/20"
+            color="from-primary/20"
             glowColor="rgba(168, 85, 247, 0.15)"
           />
           <SpotlightCard 
-            icon={<Target className="w-8 h-8 text-pink-400" />}
+            icon={<Target className="w-8 h-8 text-secondary" />}
             title="Creative Vision"
             description="Transforming abstract ideas into stunning visual narratives that aggressively captivate and engage viewers."
-            color="from-pink-500/20"
+            color="from-secondary/20"
             glowColor="rgba(236, 72, 153, 0.15)"
           />
           <SpotlightCard 
-            icon={<Zap className="w-8 h-8 text-blue-400" />}
+            icon={<Zap className="w-8 h-8 text-primary" />}
             title="Rapid Delivery"
             description="Lightning-fast turnaround times optimized for social media without ever compromising on elite quality."
-            color="from-blue-500/20"
+            color="from-primary/20"
             glowColor="rgba(59, 130, 246, 0.15)"
           />
         </div>
