@@ -155,13 +155,6 @@ export default function VideoGallery() {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <motion.div
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.2}
-            onDragEnd={handleDragEnd}
-            className="absolute inset-0 z-50"
-          />
 
           {videos.map((video, index) => {
             // Calculate shortest path offset
@@ -185,6 +178,10 @@ export default function VideoGallery() {
               <motion.div
                 key={index}
                 className="absolute top-0 w-full max-w-lg origin-center"
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.2}
+                onDragEnd={handleDragEnd}
                 initial={false}
                 animate={{
                   x,
@@ -200,7 +197,7 @@ export default function VideoGallery() {
                   damping: 25,
                   mass: 1
                 }}
-                style={{ transformStyle: 'preserve-3d' }}
+                style={{ transformStyle: 'preserve-3d', touchAction: 'pan-y' }}
                 onClick={() => {
                   if (isCenter) {
                     setSelectedVideo(index);
@@ -263,7 +260,7 @@ export default function VideoGallery() {
         </div>
 
         {/* Carousel Controls */}
-        <div className="flex items-center justify-center gap-6 mt-4 md:mt-8">
+        <div className="flex items-center justify-center gap-6 mt-5 md:mt-8">
           <button 
             onClick={handlePrev}
             className="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-primary transition-all group"
