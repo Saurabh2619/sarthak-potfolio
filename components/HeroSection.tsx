@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { TubesBackground } from './TubesBackground';
-import { ArrowDown, Briefcase, GraduationCap, MousePointer2 } from 'lucide-react';
+import { ArrowDown, Video, Sparkles, MousePointer2 } from 'lucide-react';
 import { motion, Variants } from 'framer-motion';
 
 export default function HeroSection() {
@@ -41,49 +41,49 @@ export default function HeroSection() {
           animate="visible"
         >
           {/* Main Heading */}
-          <motion.div className="space-y-4 pointer-events-auto cursor-default" variants={itemVariants}>
-            <h1 className="text-7xl md:text-9xl font-black uppercase tracking-tighter text-white drop-shadow-[0_0_30px_rgba(0,0,0,0.8)] select-none">
+          <motion.div className="space-y-4 md:space-y-6 pointer-events-auto cursor-default" variants={itemVariants}>
+            <h1 className="text-6xl sm:text-7xl md:text-9xl font-black uppercase tracking-tighter text-white drop-shadow-[0_0_30px_rgba(0,0,0,0.8)] select-none">
               Vistara
             </h1>
-            <h2 className="text-3xl md:text-5xl font-bold text-white/90 drop-shadow-[0_0_25px_rgba(0,0,0,0.8)] select-none">
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white/90 drop-shadow-[0_0_25px_rgba(0,0,0,0.8)] select-none px-4">
               Where Vision Meets Creativity
             </h2>
           </motion.div>
 
           {/* Subtitle */}
-          <motion.div className="mt-4 space-y-3 pointer-events-auto cursor-default" variants={itemVariants}>
-            <p className="text-xl md:text-2xl text-white/80 font-light drop-shadow-md">
+          <motion.div className="mt-2 md:mt-4 space-y-4 pointer-events-auto cursor-default" variants={itemVariants}>
+            <p className="text-lg md:text-2xl text-white/80 font-light drop-shadow-md px-4">
               Video Editing • Content Creation • Visual Storytelling
             </p>
-            <div className="flex items-center justify-center gap-6 text-white/70">
+            <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4 text-white/70">
               <div className="flex items-center gap-2">
-                <GraduationCap className="w-5 h-5" />
-                <span className="text-sm md:text-base">BBA Student</span>
+                <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-primary" />
+                <span className="text-sm md:text-base tracking-wide uppercase">VFX Studio</span>
               </div>
-              <div className="w-1 h-1 bg-white/50 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-secondary/50 rounded-full"></div>
               <div className="flex items-center gap-2">
-                <Briefcase className="w-5 h-5" />
-                <span className="text-sm md:text-base">Video Editor</span>
+                <Video className="w-4 h-4 md:w-5 md:h-5 text-primary" />
+                <span className="text-sm md:text-base tracking-wide uppercase">Post-Production</span>
               </div>
             </div>
             
             {/* Interactive text from reference prompt */}
-            <p className="text-white/60 text-sm max-w-md mx-auto mt-6 drop-shadow-md">
-              Move your cursor to interact with the 3D tubes. Click anywhere to randomize the neon colors.
+            <p className="text-white/60 text-xs md:text-sm max-w-md mx-auto mt-6 drop-shadow-md px-4">
+              Move your cursor or drag your finger to interact with the 3D tubes. Click/Tap anywhere to randomize the neon colors.
             </p>
           </motion.div>
 
           {/* CTA Buttons */}
-          <motion.div className="mt-4 flex flex-col sm:flex-row items-center gap-4 pointer-events-auto" variants={itemVariants}>
+          <motion.div className="mt-6 md:mt-8 w-full sm:w-auto flex flex-col sm:flex-row items-center justify-center gap-4 pointer-events-auto px-6" variants={itemVariants}>
             <button 
               onClick={() => scrollToSection('portfolio')}
-              className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-white/90 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]"
+              className="w-full sm:w-auto px-8 py-3.5 md:py-4 bg-white text-black font-bold rounded-full hover:bg-white/90 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]"
             >
               View My Work
             </button>
             <button 
               onClick={() => scrollToSection('contact')}
-              className="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-full hover:bg-white/10 backdrop-blur-md transition-all duration-300 hover:scale-105"
+              className="w-full sm:w-auto px-8 py-3.5 md:py-4 bg-transparent border-2 border-white text-white font-bold rounded-full hover:bg-white/10 backdrop-blur-md transition-all duration-300 hover:scale-105"
             >
               Get In Touch
             </button>

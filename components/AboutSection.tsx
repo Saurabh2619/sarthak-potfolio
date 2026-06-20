@@ -1,221 +1,290 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import { User, Target, Zap, Play, Sparkles } from 'lucide-react';
-import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import React, { useState, useRef } from 'react';
+import { Camera, Scissors, Video, Sparkles } from 'lucide-react';
+import { motion, LayoutGroup, useInView, useSpring, useTransform } from 'framer-motion';
 
 export default function AboutSection() {
-  // Global mouse position for the whole section background
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const sectionRef = useRef<HTMLElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const isLogoInView = useInView(logoRef, { once: true, margin: "-40% 0px" });
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!sectionRef.current) return;
-    const rect = sectionRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+  // 3D Parallax variables for Logo
+  const springConfig = { stiffness: 150, damping: 15, mass: 0.1 };
+  const mouseX = useSpring(0, springConfig);
+  const mouseY = useSpring(0, springConfig);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!logoRef.current) return;
+    const rect = logoRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    // Calculate normalized position from -1 to 1
+    mouseX.set((e.clientX - centerX) / (rect.width / 2));
+    mouseY.set((e.clientY - centerY) / (rect.height / 2));
   };
 
-  // 3D Tilt Effect for Profile Card
-  const profileX = useMotionValue(0);
-  const profileY = useMotionValue(0);
-  
-  const profileMouseX = useSpring(profileX, { stiffness: 300, damping: 30 });
-  const profileMouseY = useSpring(profileY, { stiffness: 300, damping: 30 });
-  
-  const rotateX = useTransform(profileMouseY, [-0.5, 0.5], ["15deg", "-15deg"]);
-  const rotateY = useTransform(profileMouseX, [-0.5, 0.5], ["-15deg", "15deg"]);
-
-  const handleProfileMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-    profileX.set(xPct);
-    profileY.set(yPct);
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
   };
 
-  const handleProfileMouseLeave = () => {
-    profileX.set(0);
-    profileY.set(0);
-  };
+  // Convert mouse position to rotation angles (max tilt 15 degrees)
+  const rotateX = useTransform(mouseY, [-1, 1], [15, -15]);
+  const rotateY = useTransform(mouseX, [-1, 1], [-15, 15]);
 
-  const containerVariants = {
+  // Staggered text animation variants
+  const textContainerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.2, delayChildren: 0.1 }
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.4,
+      }
     }
   };
 
-  const itemVariants = {
+  const textChildVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.8, ease: "easeOut" as const }
-    }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
   };
 
   return (
-    <section 
-      id="about" 
-      ref={sectionRef}
-      onMouseMove={handleMouseMove}
-      className="relative w-full bg-black py-16 md:py-24 px-4 overflow-hidden"
-    >
-      {/* Dynamic Interactive Spotlight Background */}
-      <div 
-        className="pointer-events-none absolute inset-0 transition-opacity duration-500 ease-in-out opacity-50"
-        style={{
-          background: `radial-gradient(circle 800px at ${mousePos.x}px ${mousePos.y}px, rgba(147, 51, 234, 0.08), transparent 80%)`
-        }}
-      />
-      
-      {/* Animated Grid Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+    <div className="relative bg-black" id="about">
+      {/* Background subtle glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.05)_0%,transparent_50%)] pointer-events-none"></div>
 
-      <motion.div 
-        className="relative z-10 max-w-7xl mx-auto"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-      >
-        {/* Section Header */}
-        <motion.div className="text-center mb-24" variants={itemVariants}>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-medium tracking-wide uppercase mb-6 backdrop-blur-md">
-            <Sparkles className="w-4 h-4" />
-            <span>Discover My World</span>
-          </div>
-          <h2 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-300 to-gray-600 mb-6 tracking-tighter">
-            About Me
-          </h2>
-        </motion.div>
+      <section className="relative w-full min-h-screen flex items-center py-24 px-4 overflow-hidden">
+        <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-16 md:gap-24 relative z-10">
+           
+           {/* Left: Enhanced Logo Section */}
+           <div 
+             ref={logoRef} 
+             className="w-full md:w-5/12 flex justify-center perspective-[1000px]"
+             onMouseMove={handleMouseMove}
+             onMouseLeave={handleMouseLeave}
+           >
+             <motion.div 
+               style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+               className="relative"
+             >
+                {/* Dropping Container with Neon Flicker */}
+                <motion.div 
+                  initial={{ opacity: 0, y: -500, rotate: -15, scale: 0.8 }}
+                  animate={isLogoInView ? { 
+                    opacity: [0, 0.5, 0.2, 1], // Glitch/Flicker effect during drop
+                    y: 0, 
+                    rotate: 0, 
+                    scale: 1 
+                  } : { opacity: 0, y: -500, rotate: -15, scale: 0.8 }}
+                  transition={{ 
+                    y: { type: "spring", stiffness: 70, damping: 10, delay: 0.2 },
+                    rotate: { type: "spring", stiffness: 70, damping: 10, delay: 0.2 },
+                    scale: { type: "spring", stiffness: 70, damping: 10, delay: 0.2 },
+                    opacity: { duration: 0.4, delay: 0.2, times: [0, 0.3, 0.6, 1] }
+                  }}
+                  className="relative z-10 w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 rounded-full flex items-center justify-center bg-gradient-to-br from-white/5 to-transparent border border-white/10 shadow-[0_0_50px_rgba(255,255,255,0.02)]"
+                >
+                  {/* Glowing 3D element shadow */}
+                  <div className="absolute inset-0 rounded-full shadow-[inset_0_0_50px_rgba(168,85,247,0.1)]" style={{ transform: "translateZ(-20px)" }}></div>
+                  
+                  {/* Vistara Logo Placeholder */}
+                  <svg 
+                    viewBox="0 0 100 100" 
+                    className="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 text-white/90 drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]" 
+                    fill="currentColor"
+                    style={{ transform: "translateZ(30px)" }} // Pops out of the circle
+                  >
+                    <path d="M10 10 L45 90 L55 90 L90 10 L75 10 L50 70 L25 10 Z" />
+                  </svg>
+                </motion.div>
 
-        {/* Main Content */}
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-32">
-          
-          {/* Left - Advanced 3D Profile Card */}
-          <motion.div 
-            className="relative w-full max-w-lg mx-auto perspective-1000" 
-            variants={itemVariants}
-          >
-            <motion.div
-              onMouseMove={handleProfileMouseMove}
-              onMouseLeave={handleProfileMouseLeave}
-              style={{
-                rotateX,
-                rotateY,
-                transformStyle: "preserve-3d",
-              }}
-              className="relative w-full aspect-square cursor-default"
-            >
-              {/* Glowing backdrops */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary rounded-[2.5rem] blur-3xl opacity-30 animate-pulse"></div>
+                {/* Shockwave Impact Effect */}
+                {isLogoInView && (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: [0, 0.6, 0], scale: [1, 1.5, 2] }}
+                    transition={{ 
+                      duration: 1.5, 
+                      delay: 0.8, 
+                      ease: "easeOut",
+                      repeat: Infinity,
+                      repeatDelay: 1.5
+                    }} 
+                    className="absolute inset-0 rounded-full border-2 border-primary/40 shadow-[0_0_30px_var(--theme-primary)]"
+                  />
+                )}
+             </motion.div>
+           </div>
+
+           {/* Right: Typography Section with Interactive Pills */}
+           <div className="w-full md:w-7/12 flex flex-col items-center md:items-start text-center md:text-left">
               
-              {/* Glassmorphism main card */}
-              <div className="absolute inset-0 rounded-[2.5rem] bg-gray-900/60 backdrop-blur-xl border border-white/20 shadow-[0_0_40px_rgba(0,0,0,0.5)] overflow-hidden flex items-center justify-center">
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
-                <User className="w-40 h-40 text-white/20 drop-shadow-2xl" />
-              </div>
-
-              {/* Floating Element 1 */}
               <motion.div 
-                className="absolute -top-6 -right-6 bg-gray-900/90 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-xl flex items-center gap-3"
-                style={{ transform: "translateZ(50px)" }}
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                variants={textContainerVariants}
+                initial="hidden"
+                animate={isLogoInView ? "visible" : "hidden"}
               >
-                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                  <Play className="w-5 h-5 text-primary ml-1" />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-400 font-medium">Experience</p>
-                  <p className="text-sm text-white font-bold">50+ Videos Edited</p>
-                </div>
+                <motion.div variants={textChildVariants} className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs md:text-sm font-bold tracking-widest uppercase mb-8 shadow-[0_0_20px_var(--theme-primary)]/10">
+                  <Sparkles className="w-4 h-4" />
+                  <span>The Vistara Experience</span>
+                </motion.div>
+
+                <motion.h2 variants={textChildVariants} className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-10 tracking-tighter leading-[1.1]">
+                  Architects of <br/>
+                  {/* Liquid Flowing Gradient Text */}
+                  <motion.span 
+                    animate={{ backgroundPosition: ["0% 50%", "200% 50%"] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                    className="text-transparent bg-clip-text bg-[linear-gradient(110deg,#a855f7,45%,#ec4899,55%,#a855f7)] bg-[length:200%_auto]"
+                  >
+                    Visual Reality.
+                  </motion.span>
+                </motion.h2>
+
+                <motion.div variants={textChildVariants}>
+                  <div className="text-xl md:text-3xl leading-[2.2] md:leading-[2.2] font-light text-gray-400 max-w-2xl relative z-30">
+                    <span>We are a premium production house driven by </span>
+                    
+                    <MagneticWrapper>
+                      <InteractivePill text="Cinematic Vision" imageSrc="https://images.unsplash.com/photo-1585698715783-9366fb8be6c2?w=400&q=80" />
+                    </MagneticWrapper>
+                    
+                    <span>, elevated through </span>
+                    
+                    <MagneticWrapper>
+                      <InteractivePill text="Precision Editing" imageSrc="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=400&q=80" />
+                    </MagneticWrapper>
+                    
+                    <span>, and brought to life with </span>
+                    
+                    <MagneticWrapper>
+                      <InteractivePill text="Immersive VFX" imageSrc="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&q=80" />
+                    </MagneticWrapper>
+                    
+                    <span>. We craft visual masterpieces.</span>
+                  </div>
+                </motion.div>
               </motion.div>
+           </div>
 
-              {/* Floating Element 2 */}
-              <motion.div 
-                className="absolute -bottom-8 -left-8 bg-gray-900/90 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-xl flex items-center gap-3"
-                style={{ transform: "translateZ(80px)" }}
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              >
-                <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.6)]"></div>
-                <p className="text-sm text-white font-bold tracking-wide">Available for Freelance</p>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-
-          {/* Right - Description with Rich Typography */}
-          <motion.div className="space-y-8 lg:pl-8" variants={itemVariants}>
-            <div className="space-y-2">
-              <h3 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
-                Dual Identity,
-              </h3>
-              <h3 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary tracking-tight">
-                One Singular Vision.
-              </h3>
-            </div>
-            
-            <div className="space-y-6 text-xl text-gray-300/80 leading-relaxed font-light">
-              <p>
-                I am a second-year BBA student by day and a highly passionate video editor by night. 
-                Through <span className="text-white font-medium border-b border-primary">Vistara</span>, I merge 
-                sharp business acumen with immersive creative storytelling to construct visual content 
-                that truly resonates with modern audiences.
-              </p>
-              <p>
-                What began as a pure passion project has organically evolved into 
-                a thriving freelance venture. I collaborate with ambitious brands and creators to bring their 
-                wildest visions to life through the dynamic power of video.
-              </p>
-            </div>
-            
-            {/* Minimalist Stats/Tags */}
-            <div className="flex flex-wrap gap-4 pt-4">
-              {['Premiere Pro', 'After Effects', 'Marketing Strategy', 'Content Creation'].map((tag, i) => (
-                <span key={i} className="px-4 py-2 rounded-full border border-gray-700 bg-gray-800/50 text-gray-300 text-sm font-medium hover:border-primary hover:text-white transition-colors cursor-default">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </motion.div>
         </div>
+      </section>
 
-        {/* Advanced Spotlight Grid */}
-        <div className="grid md:grid-cols-3 gap-6">
-          <SpotlightCard 
-            icon={<GraduationCap className="w-8 h-8 text-primary" />}
-            title="Academic Excellence"
-            description="Pursuing BBA with an intensive focus on modern marketing, management, and digital entrepreneurship."
-            color="from-primary/20"
-            glowColor="rgba(168, 85, 247, 0.15)"
-          />
-          <SpotlightCard 
-            icon={<Target className="w-8 h-8 text-secondary" />}
-            title="Creative Vision"
-            description="Transforming abstract ideas into stunning visual narratives that aggressively captivate and engage viewers."
-            color="from-secondary/20"
-            glowColor="rgba(236, 72, 153, 0.15)"
-          />
-          <SpotlightCard 
-            icon={<Zap className="w-8 h-8 text-primary" />}
-            title="Rapid Delivery"
-            description="Lightning-fast turnaround times optimized for social media without ever compromising on elite quality."
-            color="from-primary/20"
-            glowColor="rgba(59, 130, 246, 0.15)"
-          />
+      {/* Capabilities Section */}
+      <section className="relative w-full bg-black py-16 md:py-24 px-4 border-t border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12 md:mb-16">
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">Our Core Capabilities</h3>
+            <p className="text-gray-400">What makes Vistara the ultimate creative partner.</p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            <SpotlightCard 
+              icon={<Camera className="w-8 h-8 text-white" />}
+              title="Cinematography"
+              description="High-end camera work and lighting design that gives your brand a distinctive, cinematic look."
+              color="from-primary/40"
+              glowColor="var(--color-primary, #a855f7)"
+            />
+            <SpotlightCard 
+              icon={<Scissors className="w-8 h-8 text-white" />}
+              title="Precision Editing"
+              description="Transforming raw footage into stunning visual narratives with perfect pacing and rhythm."
+              color="from-secondary/40"
+              glowColor="var(--color-secondary, #ec4899)"
+            />
+            <SpotlightCard 
+              icon={<Video className="w-8 h-8 text-white" />}
+              title="VFX & Motion"
+              description="Mind-bending visual effects and motion graphics that push the boundaries of reality."
+              color="from-primary/40"
+              glowColor="var(--color-primary, #a855f7)"
+            />
+          </div>
         </div>
+      </section>
+    </div>
+  );
+}
+
+// Magnetic Wrapper Component
+function MagneticWrapper({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouse = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const { clientX, clientY } = e;
+    const { height, width, left, top } = ref.current.getBoundingClientRect();
+    const middleX = clientX - (left + width / 2);
+    const middleY = clientY - (top + height / 2);
+    // Move the element 20% of the distance to the mouse
+    setPosition({ x: middleX * 0.2, y: middleY * 0.2 });
+  };
+
+  const reset = () => {
+    setPosition({ x: 0, y: 0 });
+  };
+
+  return (
+    <motion.span
+      ref={ref}
+      onMouseMove={handleMouse}
+      onMouseLeave={reset}
+      animate={{ x: position.x, y: position.y }}
+      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+      className="inline-block relative z-20 mx-1"
+    >
+      {children}
+    </motion.span>
+  );
+}
+
+
+// Interactive Hover/Tap Pill Component
+function InteractivePill({ text, imageSrc }: { text: string, imageSrc: string }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <motion.span
+      // PC Interactions
+      onMouseEnter={() => setIsExpanded(true)}
+      onMouseLeave={() => setIsExpanded(false)}
+      // Mobile Interactions
+      onClick={(e) => {
+        e.preventDefault();
+        setIsExpanded(!isExpanded);
+      }}
+      className="inline-flex items-center gap-3 bg-gradient-to-r from-primary/10 to-secondary/10 hover:from-primary/30 hover:to-secondary/30 rounded-full px-5 py-1.5 cursor-pointer border border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.05)] align-middle transition-colors duration-300 relative"
+    >
+      <span className="font-serif italic text-white font-medium whitespace-nowrap text-2xl md:text-3xl relative z-20">
+        {text}
+      </span>
+      
+      {/* Shimmer Effect (Clipped to Pill bounds) */}
+      <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none z-10">
+        <motion.div 
+          animate={{ x: ["-200%", "400%"] }}
+          transition={{ duration: 1.5, ease: "easeInOut", repeat: Infinity, repeatDelay: 3 }}
+          className="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg]"
+        />
+      </div>
+      
+      {/* Floating Image Reveal (No Layout Shift) */}
+      <motion.div 
+        initial={{ opacity: 0, y: 15, scale: 0.8 }}
+        animate={{ 
+          opacity: isExpanded ? 1 : 0, 
+          y: isExpanded ? 0 : 15,
+          scale: isExpanded ? 1 : 0.8
+        }}
+        transition={{ duration: 0.3, type: "spring", stiffness: 200, damping: 20 }}
+        className="absolute bottom-[calc(100%+10px)] left-1/2 -translate-x-1/2 w-[140px] h-[80px] md:w-[200px] md:h-[110px] rounded-2xl overflow-hidden border border-white/20 shadow-2xl pointer-events-none z-50 origin-bottom"
+      >
+        <img src={imageSrc} alt={text} className="w-full h-full object-cover" />
       </motion.div>
-    </section>
+    </motion.span>
   );
 }
 
@@ -240,34 +309,22 @@ function SpotlightCard({ icon, title, description, color, glowColor }: { icon: R
       whileHover={{ scale: 1.02 }}
       className="relative group rounded-3xl border border-white/10 bg-gray-900/50 backdrop-blur-sm overflow-hidden"
     >
-      {/* Animated hover spotlight gradient */}
       <div 
-        className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"
+        className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 z-0"
         style={{
           background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, ${glowColor}, transparent 40%)`
         }}
       />
       
-      <div className="relative z-10 p-8 flex flex-col h-full">
-        <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 bg-gradient-to-br ${color} to-transparent border border-white/5`}>
+      <div className="relative z-10 p-8 flex flex-col h-full pointer-events-none">
+        <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 md:mb-8 bg-gradient-to-br ${color} to-transparent border border-white/5`}>
           {icon}
         </div>
-        <h4 className="text-2xl font-bold text-white mb-4 tracking-tight">{title}</h4>
-        <p className="text-gray-400/90 leading-relaxed font-light">
+        <h4 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4 tracking-tight">{title}</h4>
+        <p className="text-sm md:text-base text-gray-400/90 leading-relaxed font-light">
           {description}
         </p>
       </div>
     </motion.div>
-  );
-}
-
-// Icon Components
-function GraduationCap({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 14l9-5-9-5-9 5 9 5z" />
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-    </svg>
   );
 }

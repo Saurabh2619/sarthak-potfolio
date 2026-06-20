@@ -1,16 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Send, Mail, Phone, MapPin, CheckCircle } from 'lucide-react';
+import { Send, Mail, Phone, MapPin, CheckCircle, ChevronDown } from 'lucide-react';
 
 export default function EnquiryForm() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    service: '',
-    budget: '',
-    message: ''
+    service: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -50,9 +48,7 @@ export default function EnquiryForm() {
         name: '',
         email: '',
         phone: '',
-        service: '',
-        budget: '',
-        message: ''
+        service: ''
       });
 
       // Reset success message after 5 seconds
@@ -69,8 +65,14 @@ export default function EnquiryForm() {
   };
 
   return (
-    <section id="contact" className="relative w-full bg-black py-16 md:py-24 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section id="contact" className="relative w-full bg-black py-16 md:py-32 px-4 overflow-hidden">
+      {/* Aesthetic Background Glows */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-primary/20 blur-[150px]"></div>
+        <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-secondary/10 blur-[150px]"></div>
+      </div>
+
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16">
           <div className="inline-block mb-4">
@@ -151,7 +153,11 @@ export default function EnquiryForm() {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-gradient-to-br from-gray-900 to-black p-8 rounded-2xl border border-white/10">
+          <div className="bg-white/[0.03] backdrop-blur-xl p-8 md:p-12 rounded-[2rem] border border-white/10 shadow-2xl relative overflow-hidden group">
+            {/* Subtle hover gradient inside form */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+            
+            <div className="relative z-10">
             {submitStatus === 'success' && (
               <div className="mb-6 p-4 bg-green-500/20 border border-green-500/50 rounded-lg flex items-center gap-3">
                 <CheckCircle className="w-6 h-6 text-green-400" />
@@ -177,7 +183,7 @@ export default function EnquiryForm() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
+                    className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:bg-white/10 hover:border-white/20 transition-all duration-300"
                     placeholder="John Doe"
                   />
                 </div>
@@ -192,7 +198,7 @@ export default function EnquiryForm() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
+                    className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:bg-white/10 hover:border-white/20 transition-all duration-300"
                     placeholder="john@example.com"
                   />
                 </div>
@@ -208,73 +214,40 @@ export default function EnquiryForm() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
+                    className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:bg-white/10 hover:border-white/20 transition-all duration-300"
                     placeholder="+91 98765 43210"
                   />
                 </div>
 
-                <div>
+                <div className="relative">
                   <label className="block text-sm font-semibold text-gray-300 mb-2">
                     Service Needed *
                   </label>
-                  <select
-                    name="service"
-                    value={formData.service}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-primary transition-colors"
-                  >
-                    <option value="" disabled>Select a service</option>
-                    <option value="video-editing">Video Editing</option>
-                    <option value="content-creation">Content Creation</option>
-                    <option value="color-grading">Color Grading</option>
-                    <option value="motion-graphics">Motion Graphics</option>
-                    <option value="vfx">VFX & Effects</option>
-                    <option value="brand-video">Brand Video</option>
-                    <option value="other">Other</option>
-                  </select>
+                  <div className="relative">
+                    <select
+                      name="service"
+                      value={formData.service}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:bg-white/10 hover:border-white/20 transition-all duration-300 appearance-none cursor-pointer"
+                    >
+                      <option value="" disabled className="bg-gray-900 text-gray-400">Select a service</option>
+                      <option value="video-editing" className="bg-gray-900 text-white">Video Editing</option>
+                      <option value="artwork-and-templates" className="bg-gray-900 text-white">Artwork and Templates</option>
+                      <option value="website-development" className="bg-gray-900 text-white">Website Development</option>
+                      <option value="marketing-support" className="bg-gray-900 text-white">Marketing Support</option>
+                    </select>
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                  </div>
                 </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
-                  Budget Range
-                </label>
-                <select
-                  name="budget"
-                  value={formData.budget}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-primary transition-colors"
+              <div className="pt-4">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full px-8 py-5 bg-gradient-to-r from-primary to-secondary text-white font-bold text-lg rounded-xl hover:from-primary hover:to-secondary transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_var(--theme-primary)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 relative overflow-hidden"
                 >
-                  <option value="">Select your budget</option>
-                  <option value="under-5k">Under ₹5,000</option>
-                  <option value="5k-10k">₹5,000 - ₹10,000</option>
-                  <option value="10k-25k">₹10,000 - ₹25,000</option>
-                  <option value="25k-50k">₹25,000 - ₹50,000</option>
-                  <option value="50k-plus">₹50,000+</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
-                  Project Details *
-                </label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={5}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors resize-none"
-                  placeholder="Tell me about your project, timeline, and any specific requirements..."
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white font-bold rounded-lg hover:from-primary hover:to-secondary transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_var(--theme-primary)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
-              >
                 {isSubmitting ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -286,8 +259,10 @@ export default function EnquiryForm() {
                     <Send className="w-5 h-5" />
                   </>
                 )}
-              </button>
+                </button>
+              </div>
             </form>
+            </div>
           </div>
         </div>
       </div>

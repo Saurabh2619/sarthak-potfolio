@@ -260,7 +260,7 @@ export default function VideoGallery() {
         </div>
 
         {/* Carousel Controls */}
-        <div className="flex items-center justify-center gap-6 mt-5 md:mt-8">
+        <div className="flex items-center justify-center gap-6 mt-36 sm:mt-16 md:mt-8">
           <button 
             onClick={handlePrev}
             className="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-primary transition-all group"

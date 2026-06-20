@@ -99,11 +99,27 @@ export function TubesBackground({
     }
   };
 
+  // Proxy touch events to mouse events so the 3D script reacts to finger dragging on mobile
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (e.touches.length === 1) {
+      const touch = e.touches[0];
+      const mouseEvent = new MouseEvent('mousemove', {
+        clientX: touch.clientX,
+        clientY: touch.clientY,
+        bubbles: true,
+        cancelable: true,
+        view: window
+      });
+      window.dispatchEvent(mouseEvent);
+    }
+  };
+
   return (
     <div 
       className={cn("relative w-full h-full min-h-[400px] overflow-hidden", className)}
       style={{ backgroundColor: '#000' }}
       onClick={handleClick}
+      onTouchMove={handleTouchMove}
     >
       <canvas 
         ref={canvasRef} 

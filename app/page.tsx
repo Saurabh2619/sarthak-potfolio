@@ -2,6 +2,7 @@ import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
 import VistaraSection from '@/components/VistaraSection';
 import VideoGallery from '@/components/VideoGallery';
+import ClientsCarousel from '@/components/ClientsCarousel';
 import EnquiryForm from '@/components/EnquiryForm';
 import SmoothScroll from '@/components/SmoothScroll';
 
@@ -19,6 +20,9 @@ export default function Home() {
 
       {/* Video Portfolio Gallery */}
       <VideoGallery />
+
+      {/* Clients Marquee / Carousel */}
+      <ClientsCarousel />
 
       {/* Contact/Enquiry Form */}
       <EnquiryForm />
