@@ -152,11 +152,10 @@ export default function ClientsCarousel() {
           <div 
             className="overflow-hidden px-12 md:px-24 py-8"
             onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            onMouseLeave={() => { setIsHovered(false); handleDragEnd(); }}
             onMouseDown={handleDragStart}
             onMouseMove={handleDragMove}
             onMouseUp={handleDragEnd}
-            onMouseLeaveDrag={handleDragEnd}
             onTouchStart={handleDragStart}
             onTouchMove={handleDragMove}
             onTouchEnd={handleDragEnd}
