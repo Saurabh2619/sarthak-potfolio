@@ -34,7 +34,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-black border-t border-white/10 py-8">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-gray-400 text-sm">
+          <p className="text-gray-400 text-sm"> 
             © 2024 Vistara. All rights reserved.
           </p>
           <p className="text-gray-500 text-xs mt-2">
