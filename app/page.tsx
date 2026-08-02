@@ -1,4 +1,5 @@
 import HeroSection from '@/components/HeroSection';
+import CameraScrollTransition from '@/components/CameraScrollTransition';
 import AboutSection from '@/components/AboutSection';
 import VistaraSection from '@/components/VistaraSection';
 import VideoGallery from '@/components/VideoGallery';
@@ -8,15 +9,18 @@ import SmoothScroll from '@/components/SmoothScroll';
 
 export default function Home() {
   return (
-    <main className="relative w-full overflow-x-hidden">
+    <main className="relative w-full overflow-x-clip">
       {/* Hero Section with Tubes Background */}
       <HeroSection />
 
-      {/* About Section */}
+      {/* Smooth Standalone Camera Lens & Flash Transition */}
+      <CameraScrollTransition />
+
+      {/* About Section ("The Vistara Experience") in natural document flow */}
       <AboutSection />
 
       {/* Vistara Services Section */}
-      <VistaraSection />
+      {/* <VistaraSection /> */}
 
       {/* Video Portfolio Gallery */}
       <VideoGallery />

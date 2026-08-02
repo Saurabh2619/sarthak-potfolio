@@ -52,7 +52,7 @@ export default function AboutSection() {
   return (
     <div className="relative bg-black" id="about">
       {/* Background subtle glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.05)_0%,transparent_50%)] pointer-events-none"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.05)_0%,transparent_50%)] pointer-events-none z-0"></div>
 
       <section className="relative w-full min-h-screen flex items-center py-24 px-4 overflow-hidden">
         <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-16 md:gap-24 relative z-10">
